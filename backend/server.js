@@ -40,16 +40,17 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 //----------------------------  frontend
-if(process.env.NODE_ENV === "production") {
-  // set static folder
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
-  // any route that is not api, send index.html
-  app.get("*", (req, res) => {
+if (process.env.NODE_ENV === "production") {
+  // static folder
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
+
+  // send index.html for all unknown routes
+  app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
-}else{
+} else {
   app.get("/", (req, res) => {
-    res.send("API is running..");
+    res.send("API is running...");
   });
 }
 
